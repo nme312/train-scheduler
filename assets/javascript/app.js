@@ -2,84 +2,95 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    //create arrays to store train info
-    var trainName = [];
-    var destination = [];
-    var frequency = [];
-    var nextArrival = [];
-    var minutesAway = [];
-
     //create jquery objects for user input
     var trainNameInput = $("#name");
     var destinationInput = $("#destination");
     var firstTimeInput = $("#first-time");
     var frequencyInput = $("#frequency");
 
-    //stringify and store train info in localStorage
-    JSON.stringify(trainName);
-    JSON.stringify(destination);
-    JSON.stringify(frequency);
-    JSON.stringify(nextArrival);
-    JSON.stringify(minutesAway);
-
     //create on.click function to add current values of user input to train table
     var submitBtn = $("#submit-button");
     var tableBody = $("#table-body");
 
-    submitBtn.on("click", function () {
+    database.ref().on("child_added", function (snapshot) {
+        console.log(snapshot.val());
+        var data = snapshot.val()
+
         //creating jq objects
         var tableRow = $("<tr>");
+
         var trainNameTable = $("<td>");
         var destinationTable = $("<td>");
         var frequencyTable = $("<td>");
+        var nextTrain = $("<td>");
+        var minutesAway = $("<td>");
 
         // converting user input
-        var frequencyHours;
-        var frequencyMin;
-        var convertedFrequency;
+        var frequency = data.frequency;
 
-        frequencyHours = Number(frequencyInput.val().substr(0, frequencyInput.val().indexOf(":")));
-        console.log(frequencyHours);
-
-        frequencyMin = Number(frequencyInput.val().substr(frequencyInput.val().indexOf(":") + 1, frequencyInput.val().length));
-        console.log(frequencyInput);
-
-        convertedFrequency = Number(frequencyHours) * 60 + Number(frequencyMin);
-        console.log(convertedFrequency);
 
         //adding user input to table objects
-        trainNameTable.text(trainNameInput.val());
-        destinationTable.text(destinationInput.val());
-        frequencyTable.text(convertedFrequency);
-
-        //adding user input to localStorage array
-        trainName.push(trainNameInput.val());
-        destination.push(destinationInput.val());
-        frequency.push(convertedFrequency);
-
-        //store stagnate train info in localStorage
-        localStorage.setItem("trainNames", trainName);
-        localStorage.setItem("destinations", destination);
-        localStorage.setItem("frequencies", frequency);
-
-        //creating variables for localStorage items
-        var localTrainNames = localStorage.getItem("trainNames");
-        var localDestinations = localStorage.getItem("destinations");
-        var localFrequencies = localStorage.getItem("frequencies");
+        trainNameTable.text(data.trainName);
+        destinationTable.text(data.destination);
+        frequencyTable.text(frequency);
+        // nextTrain.text(moment(nextTrain).format("HH:mm"));
+        // minutesAway.text(tMinutesTillTrain);
 
         //appending table objects to table row object
         tableRow.append(trainNameTable);
         tableRow.append(destinationTable);
         tableRow.append(frequencyTable);
-
+        tableRow.append(nextTrain);
+        tableRow.append(minutesAway);
         //appending table row object to table body object
         tableBody.append(tableRow);
 
         //use user inputs to calculate nextArrival and minutesAway
 
-        //write for loop to push input into localStorage variables
+        // First Time (pushed back 1 year to make sure it comes before current time)
+        var firstTimeConverted = moment(data.firstTime, "HH:mm").subtract(1, "years");
+        console.log(firstTimeConverted);
 
-        //write for loop to display current localStorage values in train table
+        // Current Time
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+
+        // Time apart (remainder)
+        var tRemainder = diffTime % frequency;
+        console.log(tRemainder);
+
+        // Minute Until Train
+        var tMinutesTillTrain = frequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+        // Next Train
+        var nextArrival = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextArrival).format("HH:mm"));
+
+        console.log(moment(nextArrival).format("HH:mm"));
+
+        nextTrain.text(moment(nextArrival).format("HH:mm"));
+        minutesAway.text(tMinutesTillTrain);
+    })
+
+    submitBtn.on("click", function () {
+
+        console.log(frequency);
+
+        var tableValues = {
+            trainName: trainNameInput.val(),
+            destination: destinationInput.val(),
+            frequency: frequencyInput.val(),
+            firstTime: firstTimeInput.val()
+        }
+        console.log("object", tableValues);
+
+        database.ref().push(tableValues);
+
 
         //add if/else that allows user to edit existing trains using train name
 
