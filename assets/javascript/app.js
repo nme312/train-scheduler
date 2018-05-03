@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    var database = firebase.database();
+
     //create arrays to store train info
     var trainName = [];
     var destination = [];
@@ -20,10 +22,9 @@ $(document).ready(function () {
     JSON.stringify(nextArrival);
     JSON.stringify(minutesAway);
 
-    //create on.click function to add current values of user input
-    //to local storage and calculate next-arrival and minutes-away
+    //create on.click function to add current values of user input to train table
     var submitBtn = $("#submit-button");
-    var tableBody = $("#table-body")
+    var tableBody = $("#table-body");
 
     submitBtn.on("click", function () {
         //creating jq objects
@@ -32,17 +33,19 @@ $(document).ready(function () {
         var destinationTable = $("<td>");
         var frequencyTable = $("<td>");
 
-        console.log(trainNameInput.val());
-        console.log(destinationInput.val());
-        console.log(moment(frequencyInput.val(), "h:mm a").format("h:mm a"));
-
-        //converting user input
-        var foramtedFrequency = moment(frequencyInput.val(), "h:mm a").format("h:mm a");
-        var convertedHours = moment(foramtedFrequency).hours() * 60;
-        console.log(convertedHours + " hours > min.")
+        // converting user input
+        var frequencyHours;
+        var frequencyMin;
         var convertedFrequency;
-        console.log(foramtedFrequency + " formated");
-        console.log(convertedFrequency + " converted");
+
+        frequencyHours = Number(frequencyInput.val().substr(0, frequencyInput.val().indexOf(":")));
+        console.log(frequencyHours);
+
+        frequencyMin = Number(frequencyInput.val().substr(frequencyInput.val().indexOf(":") + 1, frequencyInput.val().length));
+        console.log(frequencyInput);
+
+        convertedFrequency = Number(frequencyHours) * 60 + Number(frequencyMin);
+        console.log(convertedFrequency);
 
         //adding user input to table objects
         trainNameTable.text(trainNameInput.val());
@@ -72,7 +75,6 @@ $(document).ready(function () {
         //appending table row object to table body object
         tableBody.append(tableRow);
 
-
         //use user inputs to calculate nextArrival and minutesAway
 
         //write for loop to push input into localStorage variables
@@ -83,5 +85,4 @@ $(document).ready(function () {
 
         //add if/else that prevents user from submiting form without filling out all fields
     })
-
 });

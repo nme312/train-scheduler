@@ -64,9 +64,8 @@
 
                             <div class="form-group">
                                 <label for="Frequency">Frequency</label>
-                                <input type="time" class="form-control" id="frequency" rows="1">
+                                <input type="text" class="form-control" id="frequency" rows="1">
                             </div>
-
                             <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -75,6 +74,19 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDYKUM4vI-Pyd-5N8JlS18NeG_MCXkrS08",
+            authDomain: "train-schedule-a4ade.firebaseapp.com",
+            databaseURL: "https://train-schedule-a4ade.firebaseio.com",
+            projectId: "train-schedule-a4ade",
+            storageBucket: "train-schedule-a4ade.appspot.com",
+            messagingSenderId: "470261519341"
+        };
+        firebase.initializeApp(config);
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js"></script>
