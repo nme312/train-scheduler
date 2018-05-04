@@ -7,23 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
+    <div class="index-body container">
 
         <div class="row">
             <div class="col-md-12">
-                <div class="jumbotron bg-primary border border-warning text-warning">
-                    Mussolini
+                <div class="mast-head jumbotron text-center">
+                    <h1>Mussolini Train Schedule</h1>
                 </div>
             </div>
         </div>
 
         <div class="row mb-4">
             <div class="col-md-12">
-                <div class="card primary border border-warning">
-                    <div class="card-header bg-primary text-warning">Trains</div>
+                <div class="schedule card">
+                    <div class="card-header">
+                        <h4>Trains</h4>
+                    </div>
                     <div class="card-body">
                         <table id="train-schedule" class="table">
                             <thead>
@@ -43,8 +47,10 @@
 
         <div class="row mb-4">
             <div class="col-md-12">
-                <div class="card primary border border-warning">
-                    <div class="card-header bg-primary text-warning">Add Trains</div>
+                <div class="schedule-form card primary">
+                    <div class="card-header">
+                        <h4>Add Trains</h4>
+                    </div>
                     <div class="card-body">
                         <form>
                             <div class="form-group">
@@ -63,7 +69,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="Frequency">Frequency</label>
+                                <label for="Frequency">Frequency (min.)</label>
                                 <input type="text" class="form-control" id="frequency" rows="1">
                             </div>
                             <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
@@ -73,7 +79,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
     <script>

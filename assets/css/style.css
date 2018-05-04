@@ -1,0 +1,28 @@
+body{
+    font-family: 'VT323', monospace;
+    background-image: url("../images/escheresque/escheresque.png");
+}
+
+.mast-head{
+    border-style: double;
+    border-color: gold;
+    border-width: 15px;
+    background-color: gray;
+    color: gold;
+}
+.schedule{
+    border-style: double;
+    border-color:gold;
+    border-width: 15px;
+    background-color: gray;
+    color: gold;
+    font-size: 25px;
+}
+.schedule-form{
+    border-style: double;
+    border-color: gold;
+    border-width: 15px;
+    background-color: gray;
+    color: gold;
+    font-size: 25px;
+}
